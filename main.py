@@ -46,7 +46,10 @@ def get_mail(service, id):
 def get_sender(raw):
     s = base64.urlsafe_b64decode(raw['raw']).decode('utf-8')
     sender = re.search(r'\nfrom:\s+[\s\S]*?\n', s, re.I).group(0)
-    sender = re.search(r'\<(.*?)\>', sender).group(0)
+    sender = re.search(r'\<(.*?)\>', sender)
+    if (sender == None):
+        return
+    sender = sender.group(0)
     return sender[1:len(sender)-1].lower()
 
 def construct_email(raw, email, name):
